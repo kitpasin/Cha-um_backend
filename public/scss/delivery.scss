@@ -1,0 +1,117 @@
+$_sm: 640px;
+$_md: 768px;
+$_lg: 1024px;
+$_xl: 1280px;
+$_2xl: 1536px;
+body{
+    background: #fffceb;
+}
+.delivery-column{
+    max-width: 1200px;
+    margin: 1rem auto;
+    text-align: center;
+    @media screen and(min-width:$_md){
+        margin: 2rem auto;
+    }
+    @media screen and(min-width:$_lg){
+        margin: 2rem auto;
+    }
+    @media screen and(min-width:$_xl){
+        margin: 4rem auto;
+    }
+    .col-text-top{
+        h1{
+            font-size: 25px;
+            font-weight: 400;
+            font-family: 'Playfair Display SC', serif;
+            @media screen and(min-width:$_md){
+                font-size: 30px;
+            }
+            @media screen and(min-width:$_xl){
+                font-size: 48px;
+            }
+        }
+        h2{
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.5rem;
+            font-family: 'Playfair Display SC', serif;
+            @media screen and(min-width:$_md){
+                font-size: 20px;
+            }
+            @media screen and(min-width:$_xl){
+                font-size: 25px;
+            }
+        }
+    }
+    .col-text-center{
+        margin: 1rem 0;
+        @media screen and(min-width:$_md){
+            margin: 1rem auto;
+        }
+        @media screen and(min-width:$_lg){
+            margin: 1rem auto;
+        }
+        @media screen and(min-width:$_xl){
+            margin: 2rem auto;
+        }
+        p{
+            margin: 1rem 0;
+            font-size: 16px;
+            font-weight: 300;
+            @media screen and(min-width:$_md){
+                font-size: 20px;
+            }
+            @media screen and(min-width:$_xl){
+                font-size: 25px;
+            }
+            a{
+                color: #B17035;
+            }
+        }
+    }
+    .col-bottom{
+        margin-top: 2rem;
+        align-items: center;
+        justify-content: center;
+        @media screen and(min-width:$_md){
+            display: flex;
+            column-gap: 3rem;
+            margin-top: 4rem;
+        }
+        p{
+            font-size: 25px;
+        }
+        .col{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            img{
+                width: 200px;
+                @media screen and(min-width:$_xl){
+                    width: unset;
+                }
+            }
+            button{
+                margin-top: 1rem;
+                width: 300px;
+                height: 40px;
+                font-size: 18px;
+                background: none;
+                border: 1px solid #000000;
+                cursor: pointer;
+                outline-style: none;
+                transition: color .3s ease-in-out, box-shadow .4s ease-in-out;
+                @media screen and(min-width:$_lg){
+                    width: 375px;
+                    font-size: 25px;
+                }
+                &:hover {
+                    box-shadow: inset 400px 0 0 0 #D4A368;
+                    color: white;
+                    border: 1px solid #D4A368;
+                }
+            }
+        }
+    }
+}

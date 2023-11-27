@@ -1,0 +1,107 @@
+$_sm: 640px;
+$_md: 768px;
+$_lg: 1024px;
+$_xl: 1280px;
+$_2xl: 1536px;
+body{
+    background: #fffceb;
+}
+.our-location{
+    max-width: 1200px;
+    margin: 4rem auto;
+    .col-text-top{
+        text-align: center;
+        h1{
+            font-size: 30px;
+            font-weight: 400;
+            font-family: 'Playfair Display SC', serif;
+            @media screen and(min-width:$_md){
+                font-size: 35px;
+            }
+            @media screen and(min-width:$_xl){
+                font-size: 48px;
+            }
+        }
+        h2{
+            font-size: 18px;
+            font-weight: 400;
+            font-family: 'Playfair Display SC', serif;
+            @media screen and(min-width:$_md){
+                font-size: 20px;
+            }
+            @media screen and(min-width:$_xl){
+                font-size: 25px;
+            }
+        }
+    }
+    .col-text-center{
+        display: grid;
+        grid-template-columns: 1fr ;
+        column-gap: 2rem;
+        row-gap: 1rem;
+        margin: 2rem 0;
+        @media screen and(min-width:$_md){
+            grid-template-columns: 1fr 1fr 1fr;
+            column-gap: 2rem;
+            margin: 6rem 0;
+        }
+        .col{
+            text-align: center;
+            h2{
+                font-size: 20px;
+                font-weight: 400;
+                @media screen and(min-width:$_md){
+                    font-size: 25px;
+                }
+                @media screen and(min-width:$_xl){
+                    font-size: 39px;
+                }
+            }
+            p{
+                font-size: 16px;
+                font-weight: 300;
+                @media screen and(min-width:$_md){
+                    font-size: 18px;
+                }
+                @media screen and(min-width:$_xl){
+                    font-size: 20px;
+                }
+            }
+            .working-hours {
+                display: flex;
+                justify-content: center;
+                p {
+                    // font-size: 16px;
+                    margin-bottom: 0 !important;
+                }
+                span {
+                    margin-left: 0.5rem;
+                    color: #7e7e7e;
+                }
+            }
+        }
+    }
+    .col-text-bottom{
+        font-size: 16px;
+        font-weight: 300;
+        width: 100%;
+        text-align: center;
+        margin: auto;
+        @media screen and(min-width:$_md){
+            font-size: 18px;
+            width: 70%;
+        }
+        @media screen and(min-width:$_xl){
+            font-size: 20px;
+            width: 70%;
+        }
+    }
+}
+.map{
+    width: 100%;
+    height: 360px;
+    iframe{
+        width: 100%;
+        height: 100%;
+    }
+}

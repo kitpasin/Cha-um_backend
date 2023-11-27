@@ -1,0 +1,97 @@
+$_sm: 640px;
+$_md: 768px;
+$_lg: 1024px;
+$_xl: 1280px;
+$_2xl: 1536px;
+body{
+    background: #fffceb;
+}
+.about{
+    max-width: 1200px;
+    margin: 1rem auto;
+    @media screen and(min-width:$_xl){
+        margin: 4rem auto;
+    }
+    .col-text-top{
+        text-align: center;
+        h1{
+            font-size: 30px;
+            font-weight: 400;
+            font-family: 'Playfair Display SC', serif;
+            @media screen and(min-width:$_lg){
+                font-size: 48px;
+            }
+        }
+        h2{
+            font-size: 18px;
+            font-weight: 400;
+            font-family: 'Playfair Display SC', serif;
+            @media screen and(min-width:$_lg){
+                font-size: 25px;
+                font-weight: 400;
+            }
+        }
+    }
+    .col-text-center{
+        margin: 1rem 0;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 1.5rem;
+        @media screen and(min-width:$_xl){
+            font-size: 20px;
+        }
+        @media screen and(min-width:$_xl){
+            margin: 5rem 8rem;
+        }
+    }
+    .col-about{
+        .col{
+            margin-bottom: 2rem;
+            @media screen and(min-width:$_md){
+                display: flex;
+                align-items: flex-start;
+                column-gap: 2rem;
+                margin-bottom: 4rem;
+            }
+            @media screen and(min-width:$_lg){
+                display: flex;
+                align-items: flex-start;
+                column-gap: 2rem;
+                margin-bottom: 4rem;
+            }
+            .left{
+                width: 100%;
+                @media screen and(min-width:$_xl){
+                    width: 35%;
+                }
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .right{
+                width: 100%;
+                @media screen and(min-width:$_xl){
+                    width: 65%;
+                }
+                h2{
+                    font-size: 25px;
+                    font-weight: 400;
+                    @media screen and(min-width:$_xl){
+                        font-size: 39px;
+                    }
+                }
+                p{
+                    font-size: 15px;
+                    font-weight: 300;
+                    line-height: 1.5rem;
+                    margin-top: 1rem;
+                    @media screen and(min-width:$_xl){
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
