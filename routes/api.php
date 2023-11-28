@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\backoffice;
 
+use App\Http\Controllers\frontoffice\ContactsController;
 use App\Http\Controllers\frontoffice\DesignsController;
 use App\Http\Controllers\frontoffice\FooterController;
-use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontoffice\NavbarController;
 use App\Http\Controllers\frontoffice\HomeController;
@@ -14,10 +12,6 @@ use App\Http\Controllers\frontoffice\PortfoliosController;
 use App\Http\Controllers\frontoffice\ProcessesController;
 use App\Http\Controllers\frontoffice\ProductsController;
 use App\Http\Controllers\frontoffice\ServicesController;
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 Route::prefix('backoffice/v1')->group(function () {
 
@@ -52,6 +46,7 @@ Route::prefix('backoffice/v1')->group(function () {
     Route::get('design/detail/read/{id}', [DesignsController::class, 'readDesignDetail']);
     // Contact
     Route::post('message/create', [MessageController::class, 'createMessage']);
+    Route::get('contact/read', [ContactsController::class, 'readContactBanner']);
     
     // Backoffice
     Route::middleware('auth:api')->group(function () {
