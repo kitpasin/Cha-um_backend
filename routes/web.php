@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\frontoffice;
 
-use App\Http\Controllers\backoffice\BookingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return "Chaum2021_API";
 });
+

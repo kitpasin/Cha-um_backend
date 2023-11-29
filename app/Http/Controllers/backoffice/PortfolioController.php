@@ -55,6 +55,7 @@ class PortfolioController extends BaseController
                 "thumbnail_link" => $thumbnail,
                 "thumbnail_title" => $thumbnail_title,
                 "thumbnail_alt" => $thumbnail_alt,
+                "category" => 3,
                 "sub_cate_id" => $params['category'],
                 "title" => $params['title'],
                 "keyword" => $params['keyword'],
