@@ -12,6 +12,7 @@ use App\Http\Controllers\frontoffice\PortfoliosController;
 use App\Http\Controllers\frontoffice\ProcessesController;
 use App\Http\Controllers\frontoffice\ProductsController;
 use App\Http\Controllers\frontoffice\ServicesController;
+use App\Http\Controllers\frontoffice\WebInfosController;
 
 Route::prefix('backoffice/v1')->group(function () {
 
@@ -21,6 +22,8 @@ Route::prefix('backoffice/v1')->group(function () {
     Route::post('reset-password', [AuthBackOfficeController::class, 'onResetPassword']);
 
     // Frontoffice
+    // WebInfo
+    Route::get('webinfo/read', [WebInfosController::class, 'readWebInfo']);
     // Navbar
     Route::get('categories/read', [NavbarController::class, 'readCategories']);
     // Footer
