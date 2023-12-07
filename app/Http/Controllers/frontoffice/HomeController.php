@@ -58,39 +58,38 @@ class HomeController extends Controller
             }
         }
 
-        $homeExample = Portfolio::orderBy("id", "DESC")
-        ->first();
+        $homeExample = Portfolio::where('pin', 1)->orderBy("updated_at", "DESC")
+            ->first();
 
         $homeService = Service::leftjoin("sub_categories", "services.sub_cate_id", "=", "sub_categories.id")
-        ->where("services.pin", "=", 1)
-        ->select(
-            "services.*",
-            "sub_categories.cate_url as slug"
-        )
-        ->orderBy("id", "DESC")
-        ->take(4)
-        ->get();
+            ->where("services.pin", "=", 1)
+            ->select(
+                "services.*",
+                "sub_categories.cate_url as slug"
+            )
+            ->orderBy("id", "DESC")
+            ->take(4)
+            ->get();
 
         $homeProduct = Product::leftjoin("sub_categories", "products.sub_cate_id", "=", "sub_categories.id")
-        ->where("products.pin", "=", 1)
-        ->select(
-            "products.*",
-            "sub_categories.cate_url as slug"
-        )
-        ->orderBy("id", "DESC")
-        ->take(4)
-        ->get();
+            ->where("products.pin", "=", 1)
+            ->select(
+                "products.*",
+                "sub_categories.cate_url as slug"
+            )
+            ->orderBy("id", "DESC")
+            ->take(4)
+            ->get();
 
         $homePortfolio = Portfolio::leftjoin("sub_categories", "portfolios.sub_cate_id", "=", "sub_categories.id")
-        ->where("portfolios.pin", "=", 1)
-        ->select(
-            "portfolios.*",
-            "sub_categories.cate_url as slug"
-        )
-        ->orderBy("id", "DESC")
-        ->take(4)
-        ->get();
-       
+            ->select(
+                "portfolios.*",
+                "sub_categories.cate_url as slug"
+            )
+            ->orderBy("id", "DESC")
+            ->take(4)
+            ->get();
+
 
         if ($posts && $homeExample && $homeService && $homeProduct && $homePortfolio) {
             return response()->json([
