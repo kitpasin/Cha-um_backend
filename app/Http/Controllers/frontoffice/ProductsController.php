@@ -131,6 +131,7 @@ class ProductsController extends Controller
 
         $product = Product::join("sub_categories", "products.sub_cate_id", "=", "sub_categories.id")
             ->where("sub_categories.cate_url", "=", $url)
+            ->select('products.*', 'sub_categories.*', 'products.id AS id', 'sub_categories.id AS sub_id')
             ->get();
 
         if ($banner) {

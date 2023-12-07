@@ -14,14 +14,15 @@ use Exception;
 
 class DesignController extends BaseController
 {
-    public function index(Request $req){
+    public function index(Request $req)
+    {
         try {
             $data = $this->getDesignData($req->language);
             return response([
                 'message' => 'ok',
                 'data' => $data,
             ], 200);
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return response([
                 'message' => 'error',
                 'description' => 'Something went wrong.',
@@ -30,20 +31,21 @@ class DesignController extends BaseController
         }
     }
 
-    public function createDesign(Request $req ) {
+    public function createDesign(Request $req)
+    {
         $this->getAuthUser();
         $files = $req->allFiles();
         $params = $req->all();
         $validator = Validator::make($req->all(), [
             'Thumbnail' => "mimes:jpg,png,jpeg,pdf|max:5000|nullable",
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->sendErrorValidators('Invalid params', $validator->errors());
         }
 
         /* Upload Thumbnail */
-        $newFolder = "upload/".date('Y')."/".date('m')."/".date('d')."/";
-        $thumbnail = (isset($files['Thumbnail']))? $this->uploadImage($newFolder, $files['Thumbnail'], "", "", $params['ThumbnailName']):"";
+        $newFolder = "upload/" . date('Y') . "/" . date('m') . "/" . date('d') . "/";
+        $thumbnail = (isset($files['Thumbnail'])) ? $this->uploadImage($newFolder, $files['Thumbnail'], "", "", $params['ThumbnailName']) : "";
 
         $thumbnail_title = isset($files['Thumbnail']) && !empty($files['Thumbnail']) ? $params['ThumbnailTitle'] : "";
         $thumbnail_alt = isset($files['Thumbnail']) && !empty($files['Thumbnail']) ? $params['ThumbnailAlt'] : "";
@@ -78,14 +80,14 @@ class DesignController extends BaseController
             ], Response::HTTP_CREATED);
 
             /* Upload Images */
-            if(isset($files['Images'])) {
+            if (isset($files['Images'])) {
                 $images = array();
-                foreach($files['Images'] as $key => $val){
+                foreach ($files['Images'] as $key => $val) {
                     array_push($images, [
                         "design_id" => $designCreated->id,
                         "image_link" => $this->uploadImage($newFolder, $files['Images'][$key], "", "", $params['ImagesName'][$key]),
-                        "title" =>  ($params['ImagesTitle'][$key])?$params['ImagesTitle'][$key]:"",
-                        "alt" =>  ($params['ImagesAlt'][$key])?$params['ImagesAlt'][$key]:"",
+                        "title" => ($params['ImagesTitle'][$key]) ? $params['ImagesTitle'][$key] : "",
+                        "alt" => ($params['ImagesAlt'][$key]) ? $params['ImagesAlt'][$key] : "",
                         "position" => $key + 1,
                         "language" => $params['language'],
                         "defaults" => 1
@@ -110,7 +112,8 @@ class DesignController extends BaseController
         }
     }
 
-    public function updateDesign(Request $req) {
+    public function updateDesign(Request $req)
+    {
         // dd($req->all());
         $this->getAuthUser();
         $files = $req->allFiles();
@@ -118,40 +121,40 @@ class DesignController extends BaseController
         $validator = Validator::make($req->all(), [
             'Thumbnail' => "mimes:jpg,png,jpeg,pdf|max:5000|nullable",
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->sendErrorValidators('Invalid params', $validator->errors());
         }
 
         try {
             DB::beginTransaction();
-            $newFolder = "upload/".date('Y')."/".date('m')."/".date('d')."/";
+            $newFolder = "upload/" . date('Y') . "/" . date('m') . "/" . date('d') . "/";
             $uploadMoreImage = array();
             $addMoreImage = array();
             $idRemove = explode(',', $params['moreImageRemove']);
-            
-            if(isset($params['EditImageLink'])) {
+
+            if (isset($params['EditImageLink'])) {
                 PostImage::where('design_id', $params['id'])->where('language', $params['language'])->delete();
                 $numb = count($params['EditImageLink']);
-                for($ii = 0; $ii < $numb; $ii++) {
+                for ($ii = 0; $ii < $numb; $ii++) {
                     array_push($addMoreImage, [
                         "design_id" => $params['id'],
                         "language" =>  $params['language'],
-                        "title" => ($params['EditImageTitle'][$ii])?$params['EditImageTitle'][$ii]:"",
-                        "alt" => ($params['EditImageAlt'][$ii])?$params['EditImageAlt'][$ii]:"",
+                        "title" => ($params['EditImageTitle'][$ii]) ? $params['EditImageTitle'][$ii] : "",
+                        "alt" => ($params['EditImageAlt'][$ii]) ? $params['EditImageAlt'][$ii] : "",
                         "image_link" =>   $params['EditImageLink'][$ii],
                         "position" => $ii + 1,
                     ]);
                 }
                 PostImage::insert($addMoreImage);
             }
-            
-            if(isset($params['Images'])) {
-                foreach($files['Images'] as $key => $val){
+
+            if (isset($params['Images'])) {
+                foreach ($files['Images'] as $key => $val) {
                     array_push($uploadMoreImage, [
                         "design_id" => $params['id'],
                         "image_link" => $this->uploadImage($newFolder, $files['Images'][$key], "", "", $params['ImagesName'][$key]),
-                        "alt" =>  ($params['ImagesAlt'][$key])?$params['ImagesAlt'][$key]:"",
-                        "title" =>  ($params['ImagesTitle'][$key])?$params['ImagesTitle'][$key]:"",
+                        "alt" => ($params['ImagesAlt'][$key]) ? $params['ImagesAlt'][$key] : "",
+                        "title" => ($params['ImagesTitle'][$key]) ? $params['ImagesTitle'][$key] : "",
                         "position" => $params['ImagesPosition'][$key],
                         "language" => $params['language'],
                     ]);
@@ -161,16 +164,15 @@ class DesignController extends BaseController
 
             /* ยังขาด function สำหรับลบ image ออกจาก frontend! */
             PostImage::where('design_id', $params['id'])
-                    ->where('language', $params['language'])
-                    ->whereIn('id', $idRemove)
-                    ->delete();
+                ->where('language', $params['language'])
+                ->whereIn('id', $idRemove)
+                ->delete();
 
             /* Upload Thumbnail */
             if (isset($files['Thumbnail'])) {
                 $upload = $this->uploadImage($newFolder, $files['Thumbnail'], "", "", $params['ThumbnailName']);
                 $thumbnail = $newFolder . $params['ThumbnailName'];
-            } 
-            else {
+            } else {
                 if (!isset($params['ThumbnailName'])) {
                     $thumbnail = '';
                 } else {
@@ -179,7 +181,7 @@ class DesignController extends BaseController
                 }
             }
 
-            $this->priorityDesignUpdate($params['old_priority'], $params['priority'] , $params['language'], "priority");
+            $this->priorityDesignUpdate($params['old_priority'], $params['priority'], $params['language'], "priority");
 
             $conditions  = ['id' => $params['id'], 'language' => $params['language']];
             $values = [
@@ -224,17 +226,18 @@ class DesignController extends BaseController
         }
     }
 
-    public function deleteDesign($language , $id) {
+    public function deleteDesign($language, $id)
+    {
         try {
 
             $design = Design::where('id', $id)->where('language', $language)->get()->first();
-            if(!$design) {
+            if (!$design) {
                 return response([
                     'message' => 'error',
                     'description' => 'Token is invalid!'
                 ], 422);
             }
-            if($design->is_maindesign === 1) {
+            if ($design->is_maindesign === 1) {
                 $this->getAuthUser(1);
             } else {
                 $this->getAuthUser();
@@ -242,7 +245,7 @@ class DesignController extends BaseController
 
             DB::beginTransaction();
 
-            $this->priorityDesignUpdate($design->priority, 99999999 , $design->language, "priority");
+            $this->priorityDesignUpdate($design->priority, 99999999, $design->language, "priority");
             Design::where('id', $id)->where('language', $language)->delete();
             PostImage::where('design_id', $id)->where('language', $language)->delete();
             DB::commit();
@@ -251,7 +254,6 @@ class DesignController extends BaseController
                 'message' => 'ok',
                 'description' => 'Delete successful'
             ], 200);
-
         } catch (Exception $e) {
             DB::rollback();
             return response([
@@ -260,11 +262,11 @@ class DesignController extends BaseController
                 'errorsMessage' => $e->getMessage()
             ], 501);
         }
-
     }
 
     /* Private function  */
-    private function getDesignData($language) {
+    private function getDesignData($language)
+    {
 
         $sql = "SELECT designs.*,
                         GROUP_CONCAT(post_images.id) imgId,
@@ -283,13 +285,15 @@ class DesignController extends BaseController
                     LEFT JOIN (SELECT * FROM post_images WHERE post_images.language = ? OR defaults = 1 ORDER BY defaults ASC) as post_images ON designs.id = post_images.design_id
                     GROUP BY designs.id
                     ORDER BY updated_at DESC";
+        DB::statement("SET SESSION group_concat_max_len = 100000000000000");
         return DB::select($sql, [$language, $language]);
     }
 
-    private function priorityDesignUpdate( $current, $new, $language, $column ){
-        $setOp = ($new <= $current)? ["<",">="] : [">","<="];
-        $updating = Design::where($column,$setOp[0], $current)->where($column, $setOp[1], $new)->where('language', $language);
-        if($new <= $current) {
+    private function priorityDesignUpdate($current, $new, $language, $column)
+    {
+        $setOp = ($new <= $current) ? ["<", ">="] : [">", "<="];
+        $updating = Design::where($column, $setOp[0], $current)->where($column, $setOp[1], $new)->where('language', $language);
+        if ($new <= $current) {
             return $updating->increment($column, 1);
         } else {
             return $updating->decrement($column, 1);

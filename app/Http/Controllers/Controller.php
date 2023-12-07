@@ -197,7 +197,7 @@ class Controller extends BaseController
          $result = DB::select($sql, [":lang" => $language]);
          return $this->subCategoryConvertGroup($result);
      }
- 
+
      private function subCategoryConvertGroup($query) {
          $resultData = [];
          if(!empty($query)){

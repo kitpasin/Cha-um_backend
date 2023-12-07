@@ -17,10 +17,16 @@ class ProductController extends BaseController
     public function index(Request $req)
     {
         try {
+            $infos = $this->getWebInfo('', 'th');
+            $webInfo = $this->infoSetting($infos);
             $data = $this->getProductData($req->language);
+
             return response([
                 'message' => 'ok',
-                'data' => $data,
+                'data' => [
+                    'product' => $data,
+                    'webInfo' => $webInfo->contact,
+                ],
             ], 200);
         } catch (Exception $e) {
             return response([
@@ -167,16 +173,15 @@ class ProductController extends BaseController
                 ->delete();
 
             /* Upload Thumbnail */
+            $editImage = "";
             if (isset($files['Thumbnail'])) {
-                $upload = $this->uploadImage($newFolder, $files['Thumbnail'], "", "", $params['ThumbnailName']);
-                $thumbnail = $newFolder . $params['ThumbnailName'];
-            } 
-            else {
+                $editImage = $this->uploadImage($newFolder, $files['Thumbnail'], "", "", $params['ThumbnailName']);
+            } else {
                 if (!isset($params['ThumbnailName'])) {
-                    $thumbnail = '';
+                    $editImage = '';
                 } else {
                     $existingThumbnail = $this->getExistingThumbnail($params['id'], $params['language']);
-                    $thumbnail = $existingThumbnail;
+                    $editImage = $existingThumbnail;
                 }
             }
 
@@ -187,7 +192,7 @@ class ProductController extends BaseController
                 'id' => $params['id'],
                 "sub_cate_id" => $params['sub_cate_id'],
                 "language" => $params['language'],
-                "thumbnail_link" => $thumbnail,
+                "thumbnail_link" => $editImage,
                 "thumbnail_title" => $params['ThumbnailTitle'],
                 "thumbnail_alt" => $params['ThumbnailAlt'],
                 "category" => $params['category'],
